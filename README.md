@@ -3,7 +3,7 @@
 **Probably Stolen × Stardew Valley 双向传送门** —— 把星露谷的作物、鱼、料理、加工品、矿石和武器，
 经一道传送门送进《Probably Stolen》的当铺里，生成同名、同图标、同类别的新物品上架出售。
 
-> **Void Pawnshop: Probably Taken From the Homeland** — a two-way bridge between
+> **Probably Taken From Stardew** — a two-way bridge between
 > *Probably Stolen* and *Stardew Valley*. Ship Stardew goods through a portal; they arrive
 > in the pawnshop as real items with the original art, calories, chemistry and prices.
 
