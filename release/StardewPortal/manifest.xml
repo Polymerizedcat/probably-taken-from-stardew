@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Manifest>
+  <ID>StardewPortal</ID>
+  <Name>虚空当铺：可能是从牢乡那拿的</Name>
+  <Author>NaHz</Author>
+  <ModVersion>1.0.0</ModVersion>
+  <Description>虚空当铺的收货货单：接收星露谷经由传送门送来的作物与加工品；启用时会把星露谷侧的子 Mod 自动装进同目录的 Stardew Valley Mods 文件夹。对面是 Probably Stolen。</Description>
+  <Prerequisites />
+  <Assemblies>
+    <Assembly>StardewPortal.dll</Assembly>
+  </Assemblies>
+  <Capabilities>
+    <Capability>files</Capability>
+  </Capabilities>
+</Manifest>

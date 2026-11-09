@@ -1,0 +1,43 @@
+# Void Pawnshop: Probably Taken From the Hometown
+
+**Probably Stolen × Stardew Valley portal**
+
+## Languages
+Chinese, English (item names follow Stardew Valley's language)
+
+## About
+Set up a portal in Stardew Valley, drop in crops, fish, cooked dishes, wine, artisan goods, ore or weapons, and ship them.
+Back in Probably Stolen, open the ledger and press "collect" to put them on your shelves.
+
+Items are genuinely mapped: each Stardew item becomes a real item here with the same name, icon, category,
+calorie value, chemical composition (coffee / espresso / Joja Cola can be read by the mass spectrometer and
+water analyser), contraband tiers for the three bombs, and a sensible price conversion.
+
+On enable the mod looks for Stardew Valley in the same steamapps/common folder, installs the Stardew-side
+companion mod, and installs SMAPI too if it is missing.
+
+## Features
+- Portal ledger: a starry page listing incoming shipments, one click to collect
+- Original art: item icons are extracted from Stardew Valley's own sprite sheets
+- Automatic bridge: detect Stardew → install SMAPI if missing → install the companion mod → write the data path
+- Full attribute mapping: type, footprint, calories, chemistry, price, contraband level
+- Refusal rules: seeds, fertiliser, tackle, tools, trinkets and furniture stay in the portal with a message
+- Editable rules: `Data/types.json` controls types, footprints, prices, flavour text and chemistry
+
+## Requires
+- Probably Stolen (Steam release)
+- Stardew Valley 1.6+ (for the crossover)
+- SMAPI 4.0+ (installed automatically when missing)
+- The mods asks for the **files** capability on first enable (it has to write into the Stardew install)
+
+## How to use
+1. Subscribe, activate the mod in the Mods menu, restart
+2. Accept the files permission prompt
+3. In Stardew Valley: launch via `StardewModdingAPI.exe`, load a save to receive the portal item
+4. Put goods into the portal, close the lid to ship
+5. Back here: open the portal ledger and press "collect"
+
+## Known limitations
+- The Workshop build declares `files`: from the 2026-12-10 game update it only loads after developer verification (local `Mods/` installs are unaffected)
+- The Stardew launch option has to be set once manually (Steam → properties → launch options → StardewModdingAPI.exe)
+- Items already collected keep their old stats; re-ship to apply new rules

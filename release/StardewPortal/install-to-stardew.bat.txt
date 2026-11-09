@@ -1,0 +1,44 @@
+@echo off
+chcp 65001 >nul
+setlocal EnableDelayedExpansion
+
+rem 手动把子 Mod（和 SMAPI）装到同级的星露谷物语目录。
+rem 正常情况下不用跑这个：深空当铺里的「星露谷传送门」Mod 启用时已经自动做过了。
+
+set "HERE=%~dp0"
+set "SV=%HERE%..\..\..\Stardew Valley"
+
+if not exist "%SV%\Stardew Valley.exe" (
+  echo [x] 没找到星露谷: %SV%
+  echo     请确认它和 Probably Stolen 在同一个 steamapps\common 下。
+  pause
+  exit /b 1
+)
+
+echo [*] 星露谷目录: %SV%
+
+if not exist "%SV%\StardewModdingAPI.exe" (
+  if exist "%HERE%Bridge\smapi\StardewModdingAPI.exe" (
+    echo [*] 安装 SMAPI ...
+    xcopy "%HERE%Bridge\smapi\*" "%SV%\" /E /Y /I >nul
+  ) else (
+    echo [!] 没有附带 SMAPI，请先到 https://smapi.io 安装一次。
+  )
+) else (
+  echo [=] 已经装过 SMAPI，跳过。
+)
+
+echo [*] 安装星露谷侧传送门 Mod ...
+if exist "%SV%\Mods\DeepSpacePortal" rmdir /S /Q "%SV%\Mods\DeepSpacePortal"
+xcopy "%HERE%Bridge\mod\*" "%SV%\Mods\DeepSpacePortal\" /E /Y /I >nul
+
+if not exist "%SV%\StardewModdingAPI.deps.json" (
+  if exist "%SV%\Stardew Valley.deps.json" (
+    echo [*] 生成 StardewModdingAPI.deps.json ...
+    copy /Y "%SV%\Stardew Valley.deps.json" "%SV%\StardewModdingAPI.deps.json" >nul
+  )
+)
+
+echo [ok] 完成。用 StardewModdingAPI.exe 启动星露谷即可。
+echo     如果直接双击闪退，说明缺 StardewModdingAPI.deps.json（本脚本会补）。
+pause

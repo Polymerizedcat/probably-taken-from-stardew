@@ -1,0 +1,15 @@
+# build output
+bin/
+obj/
+*.pdb
+*.user
+
+# local runtime data (never committed)
+release/StardewPortal/Data/inbox.json
+release/StardewPortal/Data/state.json
+release/StardewPortal/Data/*.bak
+release/StardewPortal/Textures/Items/*.png
+
+# scratch
+.dsh_tools/
+tmp/

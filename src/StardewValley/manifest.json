@@ -1,0 +1,10 @@
+{
+  "Name": "虚空当铺：可能是从牢乡那拿的",
+  "Author": "NaHz",
+  "Version": "1.0.0",
+  "Description": "把星露谷的作物、加工品经传送门送往 Probably Stolen（深空当铺）。",
+  "UniqueID": "NaHz.DeepSpacePortal",
+  "EntryDll": "DeepSpacePortal.dll",
+  "MinimumApiVersion": "4.0.0",
+  "UpdateKeys": []
+}

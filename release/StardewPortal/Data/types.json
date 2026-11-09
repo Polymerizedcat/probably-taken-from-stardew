@@ -1,0 +1,181 @@
+{
+  "version": 3,
+  "$comment": "星露谷物品 -> 深空当铺标签。值为 'TYPE' 或 'TYPE|TYPE2'，留空表示不加任何类型。改完保存后重启游戏生效。",
+
+  "byCategory": {
+    "-4":  "FOOD",
+    "-5":  "FOOD",
+    "-6":  "FOOD",
+    "-7":  "PROCESSED_FOOD",
+    "-14": "FOOD",
+    "-25": "FOOD",
+    "-75": "FOOD",
+    "-79": "FOOD",
+    "-80": "FOOD",
+    "-81": "FOOD",
+
+    "-26": "PROCESSED_FOOD",
+    "-27": "BASIC_MATERIAL",
+    "-2":  "LUXURY_ITEM",
+    "-12": "MATERIAL",
+    "-15": "MATERIAL",
+    "-16": "MATERIAL",
+    "-17": "MATERIAL",
+    "-18": "MATERIAL",
+    "-8":  "MATERIAL",
+    "-28": "MATERIAL",
+
+    "-19": "FARMING_SUPPLIES",
+    "-74": "SEED",
+    "-20": "JUNK",
+    "-21": "JUNK",
+    "-22": "TOOL",
+    "-98": "WEAPON|MELEE_WEAPON"
+  },
+
+  "byId": {
+    "(O)348": "ALCOHOL",
+    "(O)346": "ALCOHOL",
+    "(O)303": "ALCOHOL",
+    "(O)459": "ALCOHOL",
+    "(O)350": "BREVAGE",
+    "(O)614": "BREVAGE",
+    "(O)395": "BREVAGE|NARCOTIC",
+    "(O)253": "BREVAGE|NARCOTIC",
+    "(O)338": "BASIC_MATERIAL",
+    "(O)167": "BREVAGE",
+    "(O)286": "CONTRABAND",
+    "(O)287": "CONTRABAND",
+    "(O)288": "CONTRABAND"
+  },
+
+  "byObjectType": {
+    "Fish": "FOOD",
+    "Cooking": "PROCESSED_FOOD",
+    "Minerals": "MATERIAL"
+  },
+
+  "extraTypes": {
+    "$comment": "额外追加的类型标签（只影响标签，不影响热量/占格/价格）。",
+    "byType": {
+      "PROCESSED_FOOD": ["FOOD"],
+      "TREAT": ["FOOD"]
+    },
+    "byCategory": {
+      "-26": ["FOOD"],
+      "-7": ["FOOD"],
+      "-6": ["BREVAGE"]
+    },
+    "byId": {
+      "(O)184": ["BREVAGE"],
+      "(O)186": ["BREVAGE"],
+      "(O)436": ["BREVAGE"],
+      "(O)438": ["BREVAGE"]
+    }
+  },
+
+  "removeTypes": {
+    "$comment": "摘掉游戏自动加的类型标签（可食物品的 InitFoodItem 会自动加 FOOD）。",
+    "byType": {},
+    "byCategory": {},
+    "byId": {
+      "(O)395": ["FOOD"],
+      "(O)253": ["FOOD"],
+      "(O)614": ["FOOD"],
+      "(O)348": ["FOOD"],
+      "(O)346": ["FOOD"],
+      "(O)303": ["FOOD"],
+      "(O)459": ["FOOD"]
+    }
+  },
+
+  "basePrice": {
+    "$comment": "覆盖星露谷的原始标价（-1/不填 = 用物品自带价格）。炸弹三件套在游戏里 salePrice 都是 100，这里按原价区分。",
+    "byId": {
+      "(O)286": 50,
+      "(O)287": 75,
+      "(O)288": 100
+    }
+  },
+
+  "valueScale": {
+    "$comment": "在算出来的价格上再乘一个系数（1 = 不变）。",
+    "byId": {
+      "(O)395": 0.5,
+      "(O)253": 0.5
+    }
+  },
+
+  "value": {
+    "$comment": "固定售价（信用点），-1 表示不用固定值。加工品身份被抹平，所以统一成一个价。",
+    "byId": {},
+    "global": 1.0,
+    "byCategory": {
+      "-26": 300
+    }
+  },
+
+  "flavor": {
+    "$comment": "加工品在那边只被当成普通食物，身份被抹平了；这里给它们一段说明。用 \n 换行。",
+    "byId": {
+      "(O)614": "",
+      "(O)346": "",
+      "(O)303": ""
+    },
+    "byCategory": {
+      "-26": "无论它原本由什么水果、蔬菜制成，在这个世界里都已经失去意义。\n产地、年份、品牌都不再被追问——它只是被还原成了食物本来的样子。"
+    }
+  },
+
+  "gridSize": {
+    "$comment": "形状写法：'1' = 1格；'1,1;1,1' = 2x2；'1,0;0,1' = 两个对角格。分号分行，逗号分列。",
+    "default": "1",
+    "food": "1,1;1,1",
+    "fish": "1,1;1,1",
+    "weapon": "0,1;1,0",
+    "foodTypes": ["FOOD", "PROCESSED_FOOD", "TREAT"],
+    "weaponTypes": ["WEAPON", "MELEE_WEAPON", "FIREARM"],
+    "byCategory": {
+      "-12": "1,1;1,1",
+      "-15": "1,1;1,1"
+    },
+    "byId": {
+      "(O)287": "1,1;1,1",
+      "(O)288": "1,1;1,1",
+      "(O)74": "1,1;1,1",
+      "(O)107": "1,1;1,1;1,1",
+      "(O)348": "0,1;1,0",
+      "(O)346": "1,1;1,1",
+      "(O)303": "1,1;1,1",
+      "(O)350": "1,1;1,1",
+      "(O)459": "1,1;1,0"
+    }
+  },
+
+  "chemComposition": {
+    "(O)395": { "volumeMl": 200, "components": { "water": 198, "caffeine": 2 } },
+    "(O)253": { "volumeMl": 200, "components": { "water": 194, "caffeine": 6 } },
+    "(O)167": { "volumeMl": 400, "components": { "water": 388, "caffeine": 4, "chemical_contaminant": 6, "dream_cap_extract": 2 } }
+  },
+
+  "contrabandLevelById": {
+    "(O)286": 1,
+    "(O)287": 2,
+    "(O)288": 3
+  },
+
+  "valueMultiplierById": {
+    "(O)286": 4,
+    "(O)287": 4,
+    "(O)288": 4
+  },
+
+  "rejectCategories": [-99, -101, -96, -95, -97, -100, -24, -9, -102, -74, -19, -22],
+  "foodTypes": ["FOOD", "PROCESSED_FOOD", "BREVAGE", "ALCOHOL", "TREAT", "NARCOTIC"],
+  "drinkTypes": ["BREVAGE", "ALCOHOL"],
+  "caloriesPerEdibility": 12,
+  "minCalories": 30,
+  "drinkThirst": 250,
+
+  "default": ""
+}
