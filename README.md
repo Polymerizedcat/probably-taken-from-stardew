@@ -4,7 +4,7 @@
 fish, cooked dishes, artisan goods, ore and weapons, and ship them into the pawnshop. They arrive
 as real items with the original art, the same calories, chemistry and a sensible price.
 
-English | [简体中文](README.zh-CN.md)
+[Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3836592867) | [简体中文](README.zh-CN.md)
 
 > 虚空当铺：可能是从牢乡那拿的 — the Chinese name of this mod.
 

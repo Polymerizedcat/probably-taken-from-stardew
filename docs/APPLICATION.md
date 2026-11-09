@@ -1,7 +1,6 @@
 # Workshop verification application (draft)
 
-Fill in `<WORKSHOP LINK>` after the Workshop item is published, then post this in the
-game's modding channel.
+The Workshop item is published; post the text below in the game's modding channel.
 
 ---
 
@@ -10,7 +9,7 @@ Requesting Workshop verification for the files capability.
 I maintain this mod as NaHz:
 
 **Probably Taken From Stardew** 1.0.0 (虚空当铺：可能是从牢乡那拿的)
-`<WORKSHOP LINK — to be added after upload>`
+https://steamcommunity.com/sharedfiles/filedetails/?id=3836592867
 
 It is a two-way bridge between Probably Stolen and Stardew Valley. On this side it reads its
 own `Data/*.json` (type rules, incoming shipments, claimed-item state) and its own
