@@ -69,8 +69,8 @@ public class StardewPortalMod : IMod
     {
         try
         {
-            string folder = ModHelper.GetModFolder(modId);
-            if (!string.IsNullOrEmpty(folder) && IODirectory.Exists(folder)) return folder;
+            string registered = ModHelper.GetModFolder(modId);
+            if (!string.IsNullOrEmpty(registered) && IODirectory.Exists(registered)) return registered;
         }
         catch (Exception ex)
         {
@@ -82,27 +82,19 @@ public class StardewPortalMod : IMod
             string gameRoot = IODirectory.GetParent(Application.dataPath)?.FullName;
             if (string.IsNullOrEmpty(gameRoot)) return null;
 
-            string modsRoot = IOPath.Combine(gameRoot, "Mods");
-            if (!IODirectory.Exists(modsRoot)) return null;
+            // local install: <game>/Mods/<any folder>/manifest.xml
+            string local = ScanForManifest(IOPath.Combine(gameRoot, "Mods"), modId, 1);
+            if (local != null) return local;
 
-            string marker = "<ID>" + modId + "</ID>";
-            foreach (string dir in IODirectory.GetDirectories(modsRoot))
+            // Workshop install: <steamapps>/workshop/content/<appid>/<item id>/manifest.xml
+            string common = IODirectory.GetParent(gameRoot)?.FullName;
+            string steamapps = common != null ? IODirectory.GetParent(common)?.FullName : null;
+            if (!string.IsNullOrEmpty(steamapps))
             {
-                string manifestPath = IOPath.Combine(dir, "manifest.xml");
-                if (!IOFile.Exists(manifestPath)) continue;
-                try
-                {
-                    string text = IOFile.ReadAllText(manifestPath, Encoding.UTF8);
-                    if (text.IndexOf(marker, StringComparison.Ordinal) >= 0) return dir;
-                }
-                catch
-                {
-                    // unreadable manifest: keep looking
-                }
+                string content = IOPath.Combine(steamapps, "workshop", "content");
+                string workshop = ScanForManifest(content, modId, 2);
+                if (workshop != null) return workshop;
             }
-
-            string guess = IOPath.Combine(modsRoot, "StardewPortal");
-            if (IODirectory.Exists(guess)) return guess;
         }
         catch (Exception ex)
         {
@@ -112,20 +104,36 @@ public class StardewPortalMod : IMod
         return null;
     }
 
-    public void OnEnable()
+    /// <summary>Looks for a manifest.xml containing this mod id, up to <paramref name="depth"/> levels down.</summary>
+    private static string ScanForManifest(string root, string modId, int depth)
     {
-        if (string.IsNullOrEmpty(modFolder))
+        if (depth < 0 || string.IsNullOrEmpty(root) || !IODirectory.Exists(root)) return null;
+
+        foreach (string dir in IODirectory.GetDirectories(root))
         {
-            Debug.LogError("[StardewPortal] Could not find my own mod folder; the mod cannot start.");
-            return;
+            string manifestPath = IOPath.Combine(dir, "manifest.xml");
+            if (IOFile.Exists(manifestPath))
+            {
+                try
+                {
+                    if (IOFile.ReadAllText(manifestPath, Encoding.UTF8).IndexOf("<ID>" + modId + "</ID>", StringComparison.Ordinal) >= 0)
+                        return dir;
+                }
+                catch
+                {
+                    // unreadable manifest: keep looking
+                }
+            }
+
+            string nested = ScanForManifest(dir, modId, depth - 1);
+            if (nested != null) return nested;
         }
 
-        IODirectory.CreateDirectory(DataFolder);
-        IODirectory.CreateDirectory(ItemsTextureFolder);
+        return null;
+    }
 
-        LoadState();
-        LoadInbox();
-
+    public void OnEnable()
+    {
         ModHook.OnModItemDirectoryInit += OnModItemDirectoryInit;
         ModHook.OnModAssetsLoaded += OnModAssetsLoaded;
         ModHook.OnGameLoadedInit += OnGameLoadedInit;
@@ -133,9 +141,53 @@ public class StardewPortalMod : IMod
         ModHook.OnShutterOpenedEarly += OnShutterOpenedEarly;
         ModHook.OnPaperOpened += OnPaperOpened;
 
-        RegisterBook();
-        InstallBridge();
+        EnsureReady();
+    }
 
+    private bool ready;
+
+    /// <summary>
+    /// The loader runs Init/OnEnable before the mod is registered, so ModHelper.GetModFolder is
+    /// null here for every mod. Resolve the folder ourselves (Mods/ or the Workshop content
+    /// folder) and retry on the later hooks if it is still missing.
+    /// </summary>
+    private bool EnsureReady()
+    {
+        if (ready) return true;
+
+        if (string.IsNullOrEmpty(modFolder)) modFolder = ResolveModFolder(MOD_ID);
+        if (string.IsNullOrEmpty(modFolder))
+        {
+            Debug.LogWarning("[StardewPortal] Mod folder not resolved yet; will retry when a save loads.");
+            return false;
+        }
+
+        try
+        {
+            IODirectory.CreateDirectory(DataFolder);
+            IODirectory.CreateDirectory(ItemsTextureFolder);
+
+            LoadState();
+            LoadInbox();
+            RegisterBook();
+            InstallBridge();
+
+            AddDebugActions();
+
+            ready = true;
+            Debug.Log("[StardewPortal] Ready. " + shipments.Count + " shipment(s), " +
+                      definitions.Count + " item type(s), bridge=" + bridgeInstalled + ", folder=" + modFolder);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("[StardewPortal] Setup failed: " + ex);
+            return false;
+        }
+    }
+
+    private void AddDebugActions()
+    {
         try
         {
             ModHelper.AddDebugFunction(MOD_ID, "StardewPortal", "Reload portal inbox", () =>
@@ -165,9 +217,6 @@ public class StardewPortalMod : IMod
         {
             Debug.LogWarning("[StardewPortal] Could not add the debug function: " + ex.Message);
         }
-
-        Debug.Log("[StardewPortal] Enabled. " + shipments.Count + " shipment(s), " +
-                  definitions.Count + " item type(s), bridge=" + bridgeInstalled);
     }
 
     public void OnDisable()
@@ -1609,6 +1658,8 @@ public class StardewPortalMod : IMod
     /// </summary>
     private void OnGameLoadedInit()
     {
+        if (!EnsureReady()) return;
+
         EnsureItemDirectory();
         TryRegisterBookItem();
         foreach (PortalEntry entry in definitions.Values) TryRegisterItem(entry);
@@ -1619,12 +1670,16 @@ public class StardewPortalMod : IMod
     /// </summary>
     private void OnGameLoadedLate()
     {
+        if (!EnsureReady()) return;
+
         EnsurePortalBook("after the save loaded");
     }
 
     /// <summary>Opening the shop also covers a brand new game (StartNewGame never fires the loaded hooks).</summary>
     private void OnShutterOpenedEarly()
     {
+        if (!EnsureReady()) return;
+
         EnsurePortalBook("first shutter open");
     }
 
