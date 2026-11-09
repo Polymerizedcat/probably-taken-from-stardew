@@ -999,7 +999,8 @@ public class StardewPortalMod : IMod
     ""$comment"": ""额外追加的类型标签（只影响标签，不影响热量/占格/价格）。"",
     ""byType"": {
       ""PROCESSED_FOOD"": [""FOOD""],
-      ""TREAT"": [""FOOD""]
+      ""TREAT"": [""FOOD""],
+      ""ALCOHOL"": [""SUBSTANCE""]
     },
     ""byCategory"": {
       ""-26"": [""FOOD""],
@@ -1010,7 +1011,10 @@ public class StardewPortalMod : IMod
       ""(O)184"": [""BREVAGE""],
       ""(O)186"": [""BREVAGE""],
       ""(O)436"": [""BREVAGE""],
-      ""(O)438"": [""BREVAGE""]
+      ""(O)438"": [""BREVAGE""],
+      ""(O)286"": [""WEAPON"", ""AMMUNITION""],
+      ""(O)287"": [""WEAPON"", ""AMMUNITION""],
+      ""(O)288"": [""WEAPON"", ""AMMUNITION""]
     }
   },
 

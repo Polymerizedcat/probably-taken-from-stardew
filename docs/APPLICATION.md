@@ -44,7 +44,7 @@ https://github.com/Polymerizedcat/probably-taken-from-stardew/blob/main/docs/FIL
 
 DLL SHA-256:
 ```
-StardewPortal.dll   DBA0B220D54CDC5BCC7381411B9AA0A317BE31FECCFDF7AAE0BEE99DCA99A538
+StardewPortal.dll   E026575E25A6C0077DD634210B4E026F5C6391C2D1FF8604CB2C754AA68DE887
 DeepSpacePortal.dll EEA47B0F7144DBEB9BB1214633B58203E246280C35455F6A9175079486D97EFA
 ```
 (the second one ships inside `Bridge/payload.json`; `verify_payload.py` round-trips it byte for byte)
